@@ -49,7 +49,7 @@ public class PlumpRules {
         }
         
         return (followsSuit(left, right) &&
-                left.getValue() > right.getValue());
+                left.getNumber() > right.getNumber());
     }
     
     
@@ -114,22 +114,20 @@ public class PlumpRules {
      * @return <code>true</code> if the move is valid, else <code>false</code>
      */
     public boolean validMove(Player player, Card card, Suit currentSuit) {
-
-        boolean isValid = true;
         
         if (player.hasCard(card) == false) {
             setMessage("No such card in hand.");
-            isValid = false;
+            return false;
         
         } else if (currentSuit != null &&
                 followsSuit(card, currentSuit) == false &&
                 player.hasCardOfSuit(currentSuit)) {
             
-            setMessage("Player must follow suit.");
-            isValid = false;
+            setMessage("Player must follow suit.");            
+            return false;
         }
         
-        return isValid;
+        return true;
     }
 
     public String getMessageFlash() {

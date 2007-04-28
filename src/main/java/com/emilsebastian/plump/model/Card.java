@@ -3,24 +3,24 @@ package com.emilsebastian.plump.model;
 public class Card {
 
     private Suit suit;
-    private int value;
+    private int number;
     
-    public Card(Suit suit, int value) {
+    public Card(Suit suit, int number) {
         this.suit = suit;
-        this.value = value;
+        this.number = number;
     }
 
     public Suit getSuit() {
         return suit;
     }
 
-    public int getValue() {
-        return value;
+    public int getNumber() {
+        return number;
     }
     
     
     public String toString() {
-        return suit + " " + value;
+        return suit + " " + number;
     }
     
 
@@ -31,7 +31,7 @@ public class Card {
             Card card = (Card) obj;
             
             return (this.suit == card.getSuit() &&
-                    this.value == card.getValue());            
+                    this.number == card.getNumber());            
         }
         
         return false;
@@ -39,7 +39,7 @@ public class Card {
 
     @Override
     public int hashCode() {
-        return 100 * suit.ordinal() + value;
+        return 100 * suit.ordinal() + number;
     }
     
 }

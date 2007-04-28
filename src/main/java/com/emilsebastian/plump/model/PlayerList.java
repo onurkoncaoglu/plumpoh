@@ -34,6 +34,15 @@ public class PlayerList implements Iterable<Player> {
     }
     
     /**
+     * Tests if the given player is the last in line.
+     * @param player
+     * @return
+     */
+    public boolean isLast(Player player) {
+        return (players.indexOf(player) + 1) % size() == startingPlayer;
+    }
+    
+    /**
      * Sets the player after the current dealer to dealer. Also sets the 
      * player after the new dealer to be the starting player.
      */

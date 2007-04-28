@@ -77,10 +77,24 @@ public class Game implements Runnable {
     }
     
     
-    private void retrieveNumberOfTricksBid() {
-        for (Player player : players) {
+    private void retrieveNumberOfTricksBid() {    
+        int trickCount = 0;
+        
+        for (Player player : players) {            
             int tricks = player.placeBid();
+
+            if (players.isLast(player)) {
+                
+                // the total number of tricks bid mustn't equal the number
+                // of available tricks for the current deal
+                
+                while (trickCount + tricks == currentNumberOfCards) {
+                    tricks = player.placeBid();
+                }
+            }
+            
             player.setBidTricks(tricks);
+            trickCount += tricks;            
         }
     }
     
