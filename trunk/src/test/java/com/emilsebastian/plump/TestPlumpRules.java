@@ -113,7 +113,7 @@ public class TestPlumpRules {
         assertEquals(it.next(), kajsa);
         
         // make Hasse the dealer
-        players.nextDeal();
+        players.setNextDealer();
         it = players.iterator();
         
         assertEquals(it.next(), maria);
@@ -121,7 +121,7 @@ public class TestPlumpRules {
         assertEquals(it.next(), hasse);
         
         // make Maria the dealer
-        players.nextDeal();
+        players.setNextDealer();
         it = players.iterator();
         
         assertEquals(it.next(), kajsa);
@@ -148,6 +148,30 @@ public class TestPlumpRules {
         // compare a card and a suit
         assertTrue(rules.followsSuit(diamonds_3, Suit.DIAMONDS));
         assertFalse(rules.followsSuit(hearts_3, Suit.CLUBS));
+    }
+    
+    @Test
+    public void validBid() {
+        assertTrue("A valid bid",
+                rules.validBid(2, 5, 1, false));
+        
+        assertTrue("A valid bid",
+                rules.validBid(2, 5, 1, true));
+        
+        assertTrue("A valid bid", 
+                rules.validBid(4, 5, 4, true));
+        
+        assertFalse("Not valid, bid too low", 
+                rules.validBid(-1, 5, 1, false));
+        
+        assertFalse("Not valid, bid too high", 
+                rules.validBid(6, 5, 1, false));
+        
+        assertFalse("Not valid, sum of tricks is equal to number of cards on hand", 
+                rules.validBid(3, 5, 2, true));
+        
+        assertFalse("Not valid, sum of tricks is equal to number of cards on hand",
+                rules.validBid(0, 5, 5, true));
     }
     
     @Test
