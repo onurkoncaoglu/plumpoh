@@ -46,7 +46,7 @@ public class PlayerList implements Iterable<Player> {
      * Sets the player after the current dealer to dealer. Also sets the 
      * player after the new dealer to be the starting player.
      */
-    public void nextDeal() {
+    public void setNextDealer() {
         ++dealingPlayer;
         startingPlayer = getStartingPlayerBasedOnDealer();
     }

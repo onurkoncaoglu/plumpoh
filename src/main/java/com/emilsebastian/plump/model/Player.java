@@ -9,7 +9,7 @@ import com.emilsebastian.plump.ClientCommunicator;
 import com.emilsebastian.plump.exception.PlumpException;
 
 public class Player {
-
+    
     private final Collection<Card> hand = new ArrayList<Card>();
     private final Map<Integer, Integer> totalScore = new HashMap<Integer, Integer>(2, 2);
     
@@ -83,7 +83,7 @@ public class Player {
     }
     
     /**
-     * Increases the number tricks taken by the player by one.
+     * Increases the number of tricks taken by the player by one.
      *
      */
     public void addTrick() {
@@ -148,6 +148,10 @@ public class Player {
         return totalScore.get(round);
     }
     
+    public final Collection<Card> getCards() {
+        return hand;
+    }
+    
     
     /* "networking" methods, eh ... */
 
@@ -156,7 +160,7 @@ public class Player {
     }
 
     public Card askForCard() throws PlumpException {
-        tellHand();        
+        tellHand();
         
         return communicator.retrieveCard();
     }

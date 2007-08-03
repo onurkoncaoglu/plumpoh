@@ -33,7 +33,7 @@ public class ConsoleClientCommunicator implements ClientCommunicator {
     public void sendHand(Collection<Card> hand) {
         
         for (Card card : hand) {
-            System.out.print(card + "\t");
+            System.out.print(card + ", ");
         }
         
         System.out.println();

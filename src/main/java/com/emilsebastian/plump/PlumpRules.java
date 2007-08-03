@@ -5,6 +5,11 @@ import com.emilsebastian.plump.model.Player;
 import com.emilsebastian.plump.model.PlayerList;
 import com.emilsebastian.plump.model.Suit;
 
+/**
+ * This class implements the rules of the plump game. 
+ * @author emilsebastian
+ *
+ */
 public class PlumpRules {
     
     private String message = "";
@@ -99,6 +104,39 @@ public class PlumpRules {
         }
     }
 
+    
+    /*
+     * Tests whether a player is allowed to place the bid just made.
+     * 
+     * <ul>
+     *   <li>The bid must be a natural number not greater than the number of 
+     *   cards on hand</li>
+     *   <li>If the bid is placed by the player who is last to bid, it has to be
+     *   such that the total sum of tricks bid for the round won't be equal to
+     *   the number of cards on hand for the current round</li>
+     * </ul>
+     * 
+     * @param bid the bid to validate
+     * @param cardsOnHand number of cards each player has on hand this round
+     * @param bidTricksCount total number of tricks that has been bid this far
+     * @param isLastBid whether this bid is placed by the last bidding player or not
+     * @return <code>true</code> if the bid is valid, else <code>false</code>
+     */
+    public boolean validBid(int bid, int cardsOnHand,
+            int bidTricksCount, boolean isLastBid) {
+        
+        if (bid >= 0 && bid <= cardsOnHand) {
+
+            if (isLastBid) {
+                return (bid + bidTricksCount != cardsOnHand);
+            }
+            
+            return true;
+        }
+        
+        return false;
+    }
+    
 
     /**
      * Tests whether a player can play a given card or not.

@@ -9,12 +9,17 @@ import com.emilsebastian.plump.model.Player;
 import com.emilsebastian.plump.model.PlayerList;
 import com.emilsebastian.plump.model.Suit;
 
+/**
+ * This class implements the main game loop.
+ * @author emilsebastian
+ *
+ */
 public class Game implements Runnable {
 
     private static final Logger log = Logger.getLogger(Game.class);
     
     private final PlumpRules rules = new PlumpRules();
-    private final Thread gameThread = new Thread(this);
+    private final Thread gameLoop = new Thread(this);
     
     private PlayerList players;
     private Deck deck = new Deck();
@@ -28,7 +33,7 @@ public class Game implements Runnable {
     
     
     public void start() {
-        gameThread.start();
+        gameLoop.start();
     }
     
     
@@ -36,8 +41,8 @@ public class Game implements Runnable {
         try {
             int startingNumberOfCards = 52 / players.size();
             
-            if (startingNumberOfCards > 3) {
-                startingNumberOfCards = 3;
+            if (startingNumberOfCards > 5) {
+                startingNumberOfCards = 5;
             }
             
             for (int numberOfCards = startingNumberOfCards;
@@ -49,10 +54,10 @@ public class Game implements Runnable {
     
                 dealCards();
                 retrieveNumberOfTricksBid();
-                playRounds();                
+                playDeal();                
                 
-                // let the next player deal the cards
-                players.nextDeal();
+                // let the next player "deal" the cards
+                players.setNextDealer();
             }
             
         } catch (PlumpException e) {
@@ -78,28 +83,30 @@ public class Game implements Runnable {
     
     
     private void retrieveNumberOfTricksBid() {    
-        int trickCount = 0;
+        int bidTricksCount = 0;
         
         for (Player player : players) {            
-            int tricks = player.placeBid();
-
-            if (players.isLast(player)) {
-                
-                // the total number of tricks bid mustn't equal the number
-                // of available tricks for the current deal
-                
-                while (trickCount + tricks == currentNumberOfCards) {
-                    tricks = player.placeBid();
-                }
-            }
+            boolean isLastBid = players.isLast(player);
+            int bid = 0;
             
-            player.setBidTricks(tricks);
-            trickCount += tricks;            
+            do {
+                bid = player.placeBid();
+                
+            } while (!rules.validBid(bid, currentNumberOfCards, 
+                    bidTricksCount, isLastBid));
+            
+            /* while (!rules.validBid(bid, currentNumberOfCards, 
+                    bidTricksCount, isLastBid)) {
+                bid = player.placeBid();
+            } */
+            
+            player.setBidTricks(bid);
+            bidTricksCount += bid;
         }
     }
     
     
-    private void playRounds() throws PlumpException {
+    private void playDeal() throws PlumpException {
         
         // let the player who has placed the highest bid start
         rules.setBeginnerBasedOnBidTricks(players);
@@ -125,7 +132,14 @@ public class Game implements Runnable {
                 }
             }
             
+            /*
+             * Make the player who won the round the starting player of the
+             * next round and increase that player's trick count by one.
+             */
+            
+            players.setStartingPlayer(leadingPlayer);
             leadingPlayer.addTrick();
+            
             log.debug("\"" + leadingPlayer.getName() + "\" won this trick");
         }
         
@@ -147,4 +161,5 @@ public class Game implements Runnable {
             throw new PlumpException(rules.getMessageFlash());
         }
     }
+
 }
