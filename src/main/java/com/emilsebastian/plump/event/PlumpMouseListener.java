@@ -1,36 +1,29 @@
 package com.emilsebastian.plump.event;
 
+import java.awt.Point;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 
-import org.apache.log4j.Logger;
-
 import com.emilsebastian.plump.gui.Clickable;
+import com.emilsebastian.plump.gui.DragHandler;
 import com.emilsebastian.plump.gui.Dragable;
 import com.emilsebastian.plump.gui.GamePanel;
 import com.emilsebastian.plump.gui.graphic.PlumpGraphic;
 
 public class PlumpMouseListener implements MouseListener, MouseMotionListener {
-
-    private final Logger log = Logger.getLogger(this.getClass());
+    
+    private final DragHandler dragHandler = new DragHandler();
     
     private final GamePanel gamePanel;
-    
-    private Dragable dragable;
-    private boolean isDragging = false;
     
     
     public PlumpMouseListener(GamePanel panel) {
         this.gamePanel = panel;
     }
     
-    
     public void mouseClicked(MouseEvent event) {
-        int x = event.getX();
-        int y = event.getY();
-        
-        PlumpGraphic graphic = gamePanel.getGraphicByCoordinates(x, y);
+        PlumpGraphic graphic = gamePanel.getGraphicByCoordinates(event.getPoint());
         
         if (graphic instanceof Clickable) {
             Clickable clickable = (Clickable) graphic;
@@ -39,26 +32,26 @@ public class PlumpMouseListener implements MouseListener, MouseMotionListener {
     }
 
     public void mousePressed(MouseEvent event) {
-        int x = event.getX();
-        int y = event.getY();
+        final Point position = event.getPoint();
         
-        PlumpGraphic graphic = gamePanel.getGraphicByCoordinates(x, y);
+        PlumpGraphic graphic = gamePanel.getGraphicByCoordinates(position);
         
         if (graphic instanceof Dragable) {
-            dragable = (Dragable) graphic;
-            dragable.mousePressed(x, y);
-            isDragging = true;
+            dragHandler.startDragging((Dragable) graphic, position);
         }
     }
 
     public void mouseReleased(MouseEvent event) {
-        isDragging = false;
+        
+        if (dragHandler.isDragging()) {
+            dragHandler.stopDragging();
+        }
     }
     
     public void mouseDragged(MouseEvent event) {
         
-        if (isDragging) {
-            dragable.mouseDragged(event.getX(), event.getY());
+        if (dragHandler.isDragging()) {
+            dragHandler.mouseDragged(event.getPoint());
             gamePanel.repaint();
         }
     }
@@ -66,8 +59,8 @@ public class PlumpMouseListener implements MouseListener, MouseMotionListener {
 
     public void mouseEntered(MouseEvent event) {}
     
-    public void mouseExited(MouseEvent event) {}    
+    public void mouseExited(MouseEvent event) {}
     
-    public void mouseMoved(MouseEvent event) {}    
+    public void mouseMoved(MouseEvent event) {}
 
 }

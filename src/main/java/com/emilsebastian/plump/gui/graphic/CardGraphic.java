@@ -22,8 +22,6 @@ public class CardGraphic extends PlumpAbstractGraphic implements Clickable, Drag
     
     private final static Font font = new Font("Verdana", Font.BOLD, 10);
     
-    private Point dragOffset = new Point();
-    
     private final Card card;
     private final EventManager eventManager;
     
@@ -69,19 +67,16 @@ public class CardGraphic extends PlumpAbstractGraphic implements Clickable, Drag
         eventManager.cardSelected(card);
     }
     
-    public void mousePressed(int x, int y) {
-        dragOffset.x = x - getX();
-        dragOffset.y = y - getY();
+    public Point getPosition() {
+        return new Point(getX(), getY());
     }
     
-    public void mouseReleased(int x, int y) {}
-    
-    public void mouseDragged(int x, int y) {
-        setX(x - (int) dragOffset.x);
-        setY(y - (int) dragOffset.y);
+    public void setPosition(Point position) {
+        setX(position.x);
+        setY(position.y);
     }
     
-    
+
     public static int getCardWidth() {
         return cardWidth;
     }

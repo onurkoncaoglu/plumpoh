@@ -1,6 +1,7 @@
 package com.emilsebastian.plump.gui.graphic;
 
 import java.awt.Graphics2D;
+import java.awt.Point;
 import java.awt.image.BufferedImage;
 
 public abstract class PlumpAbstractGraphic implements PlumpGraphic {
@@ -41,9 +42,9 @@ public abstract class PlumpAbstractGraphic implements PlumpGraphic {
     }
 
     
-    public PlumpGraphic getGraphicByCoordinates(int xCoord, int yCoord) {
+    public PlumpGraphic getGraphicByCoordinates(Point pos) {
         
-        if (isInInterval(xCoord, x, width) && isInInterval(yCoord, y, height)) {
+        if (isInInterval(pos.x, x, width) && isInInterval(pos.y, y, height)) {
             return this;
         }
         
@@ -55,7 +56,7 @@ public abstract class PlumpAbstractGraphic implements PlumpGraphic {
         return (number >= start && number <= (start + offset));
     }
     
-    
+
     public int getX() {
         return x;
     }
@@ -64,7 +65,6 @@ public abstract class PlumpAbstractGraphic implements PlumpGraphic {
         this.x = x;
     }
 
-
     public int getY() {
         return y;
     }
@@ -72,7 +72,6 @@ public abstract class PlumpAbstractGraphic implements PlumpGraphic {
     public void setY(int y) {
         this.y = y;
     }
-    
 
     public int getWidth() {
         return width;
@@ -81,7 +80,6 @@ public abstract class PlumpAbstractGraphic implements PlumpGraphic {
     public void setWidth(int width) {
         this.width = width;
     }
-
     
     public int getHeight() {
         return height;

@@ -5,6 +5,7 @@ import java.awt.Composite;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Point;
 import java.util.Collection;
 
 import javax.swing.JPanel;
@@ -24,8 +25,8 @@ public class GamePanel extends JPanel {
     }
     
     
-    public PlumpGraphic getGraphicByCoordinates(int x, int y) {
-        return gameBoardGraphic.getGraphicByCoordinates(x, y);
+    public PlumpGraphic getGraphicByCoordinates(Point position) {
+        return gameBoardGraphic.getGraphicByCoordinates(position);
     }
     
     
