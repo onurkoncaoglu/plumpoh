@@ -1,8 +1,10 @@
 package com.emilsebastian.plump.gui.graphic;
 
 import java.awt.Graphics2D;
+import java.awt.Point;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.ListIterator;
 
 public abstract class PlumpAbstractCompositeGraphic extends PlumpAbstractGraphic {
 
@@ -23,17 +25,27 @@ public abstract class PlumpAbstractCompositeGraphic extends PlumpAbstractGraphic
     }
     
     
-    public PlumpGraphic getGraphicByCoordinates(int x, int y) {
+    public PlumpGraphic getGraphicByCoordinates(Point position) {
         
-        for (PlumpGraphic child : children) {
-            PlumpGraphic graphic = child.getGraphicByCoordinates(x, y);
+        /*
+         * The list of children is traversed in reversed order since
+         * we want to return the object that was painted last as this
+         * object will appear to be on top of the others.
+         */
+        
+        ListIterator<PlumpAbstractGraphic> iterator =
+            children.listIterator(children.size());
+        
+        while (iterator.hasPrevious()) {
+            PlumpGraphic child  = iterator.previous();
+            PlumpGraphic match = child.getGraphicByCoordinates(position);
             
-            if (graphic != null) {
-                return graphic;
+            if (match != null) {
+                return match;
             }
         }
         
-        return super.getGraphicByCoordinates(x, y);
+        return super.getGraphicByCoordinates(position);
     }
 
     

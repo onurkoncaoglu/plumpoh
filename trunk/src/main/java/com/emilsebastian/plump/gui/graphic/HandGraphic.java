@@ -52,5 +52,5 @@ public class HandGraphic extends PlumpAbstractCompositeGraphic {
         
         paintBufferedImage(parentGraphic);
     }
-
+    
 }

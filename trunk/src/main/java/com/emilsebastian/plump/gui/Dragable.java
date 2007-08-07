@@ -1,11 +1,16 @@
 package com.emilsebastian.plump.gui;
 
+import java.awt.Point;
+
+/**
+ * Interface for PlumpGraphic objects that are to be dragable.
+ * @author emilsebastian
+ *
+ */
 public interface Dragable {
 
-    public void mousePressed(int x, int y);
+    public Point getPosition();
     
-    public void mouseReleased(int x, int y);
-    
-    public void mouseDragged(int x, int y);
+    public void setPosition(Point position);
     
 }

@@ -2,6 +2,7 @@ package com.emilsebastian.plump.model;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -10,7 +11,7 @@ import com.emilsebastian.plump.exception.PlumpException;
 
 public class Player {
     
-    private final Collection<Card> hand = new ArrayList<Card>();
+    private final Collection<Card> hand = Collections.synchronizedCollection(new ArrayList<Card>());
     private final Map<Integer, Integer> totalScore = new HashMap<Integer, Integer>(2, 2);
     
     private final ClientCommunicator communicator;
