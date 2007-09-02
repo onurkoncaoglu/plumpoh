@@ -22,7 +22,7 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 
-import com.emilsebastian.plump.gui.component.GameBoardGraphic;
+import com.emilsebastian.plump.gui.component.GameBoard;
 import com.emilsebastian.plump.gui.event.EventManager;
 import com.emilsebastian.plump.model.Player;
 import com.emilsebastian.plump.model.PlayerList;
@@ -55,7 +55,7 @@ public class Plump {
     private void createWindow(final Player player) {
         
         final EventManager eventManager = new EventManager();
-        final GameBoardGraphic board = new GameBoardGraphic(player.getHand(), 0, 0, eventManager);
+        final GameBoard board = new GameBoard(player.getHand(), 0, 0, eventManager);
         
         JFrame frame = new JFrame(player.getName() + " - Plumpoh");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

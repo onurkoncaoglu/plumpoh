@@ -19,16 +19,16 @@ package com.emilsebastian.plump.gui.event;
 import java.awt.event.MouseEvent;
 
 import com.emilsebastian.plump.gui.DragHandler;
-import com.emilsebastian.plump.gui.component.CardGraphic;
+import com.emilsebastian.plump.gui.component.CardComponent;
 
-public class PlumpMouseListener extends MouseListenerAdapter {
+public class CardMouseListener extends MouseListenerAdapter {
     
     private final DragHandler dragHandler = new DragHandler();
     
     
     public void mouseClicked(MouseEvent event) {
-        CardGraphic cardGraphic = (CardGraphic) event.getSource();
-        cardGraphic.click();
+        CardComponent cardComponent = (CardComponent) event.getSource();
+        cardComponent.click();
     }
     
     public void mousePressed(MouseEvent event) {

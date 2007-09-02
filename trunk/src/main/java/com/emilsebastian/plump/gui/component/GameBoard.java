@@ -23,22 +23,30 @@ import javax.swing.JPanel;
 import com.emilsebastian.plump.gui.event.EventManager;
 import com.emilsebastian.plump.model.Hand;
 
-public class GameBoardGraphic {
+/**
+ * This class represents the game board where all
+ * game interaction takes place.
+ * 
+ * @author emilsebastian
+ *
+ */
+public class GameBoard {
     
     private final static Dimension SIZE = new Dimension(400, 200);
     
     private final JPanel boardPanel = new JPanel();
     
     
-    public GameBoardGraphic(Hand hand, int width, int height, 
+    public GameBoard(Hand hand, int width, int height, 
             EventManager eventManager) {
 
-        HandGraphic handGraphic = new HandGraphic(hand, SIZE, eventManager);
+        HandComponent handGraphic = new HandComponent(hand, SIZE, eventManager);
 
         boardPanel.setLayout(null);
         boardPanel.setPreferredSize(SIZE);
         boardPanel.add(handGraphic);
     }
+    
     
     public JPanel getPanel() {
         return boardPanel;

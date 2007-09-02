@@ -28,7 +28,14 @@ import javax.swing.JComponent;
 import com.emilsebastian.plump.gui.event.EventManager;
 import com.emilsebastian.plump.model.Card;
 
-public class CardGraphic extends JComponent {
+/**
+ * This class represents the user interface element used 
+ * to display a playing card.
+ * 
+ * @author emilsebastian
+ *
+ */
+public class CardComponent extends JComponent {
 
     private static final int WIDTH = 60;
     private static final int HEIGHT = 90;
@@ -37,21 +44,24 @@ public class CardGraphic extends JComponent {
     private final EventManager eventManager;
     
     
-    public CardGraphic(Card card, EventManager eventManager) {
+    public CardComponent(Card card, EventManager eventManager) {
         this(card, 0, 0, eventManager);
     }
     
-    public CardGraphic(Card card, int x, int y, EventManager eventManager) {
+    
+    public CardComponent(Card card, int x, int y, EventManager eventManager) {
         this.card = card;
         this.eventManager = eventManager;
         
         setLocation(x, y);
         setSize(WIDTH, HEIGHT);
     }
+    
 
     public void click() {
         eventManager.cardSelected(card);
     }
+    
     
     @Override
     protected void paintComponent(Graphics g) {
