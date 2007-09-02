@@ -27,9 +27,10 @@ public class TestPlumpRules {
     Player hasse = new Player(null, "Hasse");
     Player maria = new Player(null, "Maria");
     
-    Card diamonds_3 = new Card(Suit.DIAMONDS, 3);
-    Card hearts_3 = new Card(Suit.HEARTS, 3);
-    Card hearts_9 = new Card(Suit.HEARTS, 9);
+    Card diamonds_3 = new Card(3, Suit.DIAMONDS);
+    Card hearts_3 = new Card(3, Suit.HEARTS);
+    Card hearts_9 = new Card(9, Suit.HEARTS);
+    Card ace_of_diamonds = new Card(1, Suit.DIAMONDS);
 
     PlumpRules rules = new PlumpRules();
     
@@ -47,6 +48,7 @@ public class TestPlumpRules {
         assertFalse(rules.beats(hearts_3, diamonds_3));
         assertFalse(rules.beats(hearts_3, hearts_9));
         assertTrue(rules.beats(hearts_9, hearts_3));
+        assertTrue(rules.beats(ace_of_diamonds, diamonds_3));
     }
     
     @Test

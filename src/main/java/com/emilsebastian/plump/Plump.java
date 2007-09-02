@@ -1,3 +1,19 @@
+/*
+ * Copyright 2007 Emil Jönsson
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at 
+ * 
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *     
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package com.emilsebastian.plump;
 
 import java.awt.BorderLayout;
@@ -6,9 +22,8 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 
-import com.emilsebastian.plump.event.PlumpMouseListener;
-import com.emilsebastian.plump.gui.EventManager;
-import com.emilsebastian.plump.gui.GamePanel;
+import com.emilsebastian.plump.gui.component.GameBoardGraphic;
+import com.emilsebastian.plump.gui.event.EventManager;
 import com.emilsebastian.plump.model.Player;
 import com.emilsebastian.plump.model.PlayerList;
 
@@ -40,18 +55,13 @@ public class Plump {
     private void createWindow(final Player player) {
         
         final EventManager eventManager = new EventManager();
-        final GamePanel plumpPanel = new GamePanel(player.getCards(), eventManager);
-        
-        PlumpMouseListener listener = new PlumpMouseListener(plumpPanel);
-        
-        plumpPanel.addMouseListener(listener);
-        plumpPanel.addMouseMotionListener(listener);
+        final GameBoardGraphic board = new GameBoardGraphic(player.getHand(), 0, 0, eventManager);
         
         JFrame frame = new JFrame(player.getName() + " - Plumpoh");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(500, 500);
-        frame.getContentPane().add(BorderLayout.CENTER, plumpPanel);
+        frame.getContentPane().add(BorderLayout.CENTER, board.getPanel());
         frame.getContentPane().add(BorderLayout.SOUTH, new JButton("Hej"));
+        frame.pack();
         frame.setVisible(true);
     }
     

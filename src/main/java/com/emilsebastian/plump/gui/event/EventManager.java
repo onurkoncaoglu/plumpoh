@@ -14,33 +14,20 @@
  * limitations under the License.
  */
 
-package com.emilsebastian.plump.gui;
+package com.emilsebastian.plump.gui.event;
 
-import java.awt.Component;
-import java.awt.Point;
+import org.apache.log4j.Logger;
 
-/**
- * Handles dragging of user interface elements.
- * @author emilsebastian
- *
- */
-public class DragHandler {
+import com.emilsebastian.plump.model.Card;
 
-    private Point offset = new Point(0, 0);
+public class EventManager {
 
+    private final static Logger log = Logger.getLogger(EventManager.class);
     
-    public void mousePressed(Point offset) {
-        this.offset = offset;
-    }
     
-    public void mouseDragged(Component component, Point destination) {
-        
-        synchronized (component) {
-            destination.x += component.getX() - offset.x;
-            destination.y += component.getY() - offset.y;
-            
-            component.setLocation(destination);
-        }
+    public synchronized void cardSelected(Card card) {
+        log.info("Selected card " + card.getSuit().name() +
+                " " + card.getRank());
     }
     
 }

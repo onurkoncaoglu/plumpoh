@@ -10,10 +10,23 @@
 			<plugin>
 				<artifactId>maven-compiler-plugin</artifactId>
 				<configuration>
-					<source>1.5</source>
-					<target>1.5</target>
+					<source>1.6</source>
+					<target>1.6</target>
 				</configuration>
 			</plugin>
+			<plugin>
+	          <groupId>org.apache.maven.plugins</groupId>
+	          <artifactId>maven-jar-plugin</artifactId>
+	          <configuration>
+	            <archive>
+	              <manifest>
+	                <mainClass>com.emilsebastian.plump.PlumpClient</mainClass>
+	                <packageName>com.emilsebastian.plump</packageName>
+	                <addClasspath>true</addClasspath>
+	              </manifest>
+	            </archive>
+	          </configuration>
+	        </plugin>
 		</plugins>
 	</build>
 	<dependencies>
@@ -24,9 +37,26 @@
 			<scope>test</scope>
 		</dependency>
 		<dependency>
+			<groupId>org.easymock</groupId>
+			<artifactId>easymock</artifactId>
+			<version>2.3</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
 			<groupId>log4j</groupId>
 			<artifactId>log4j</artifactId>
 			<version>1.2.9</version>
 		</dependency>
 	</dependencies>
+	<reporting>
+	  <plugins>
+	    <plugin>
+	      <artifactId>maven-javadoc-plugin</artifactId>
+	      <configuration>
+	        <!--excludePackageNames>*.internal</excludePackageNames-->
+	        <bottom><![CDATA[<i>Copyright &copy; 2007 Emil J&ouml;nsson,. This documentation is provided under the terms of the Apache 2.0 licence.</i>]]></bottom>
+	      </configuration>
+	    </plugin>
+	  </plugins>
+	</reporting>
 </project>
