@@ -24,19 +24,26 @@ import java.awt.Graphics2D;
 import javax.swing.JPanel;
 
 import com.emilsebastian.plump.gui.event.EventManager;
-import com.emilsebastian.plump.gui.event.PlumpMouseListener;
+import com.emilsebastian.plump.gui.event.CardMouseListener;
 import com.emilsebastian.plump.model.Card;
 import com.emilsebastian.plump.model.Hand;
 
-public class HandGraphic extends JPanel {
+/**
+ * This class represents the user interface element used
+ * to display the cards a player currently has in hand.
+ * 
+ * @author emilsebastian
+ *
+ */
+public class HandComponent extends JPanel {
     
-    private final PlumpMouseListener listener = new PlumpMouseListener();
+    private final CardMouseListener listener = new CardMouseListener();
     
     private final Hand hand;
     private final EventManager eventManager;
     
     
-    public HandGraphic(Hand hand, Dimension size, EventManager eventManager) {
+    public HandComponent(Hand hand, Dimension size, EventManager eventManager) {
         this.hand = hand;
         this.eventManager = eventManager;
         
@@ -44,6 +51,7 @@ public class HandGraphic extends JPanel {
         setSize(size);
         createCardComponents();
     }
+    
     
     private void createCardComponents() {
 
@@ -54,7 +62,7 @@ public class HandGraphic extends JPanel {
             int x = 5 + 80 * count++;
             int y = 10;
             
-            CardGraphic cardGraphic = new CardGraphic(
+            CardComponent cardGraphic = new CardComponent(
                     card, x, y, eventManager);
             
             cardGraphic.addMouseListener(listener);
@@ -62,7 +70,8 @@ public class HandGraphic extends JPanel {
             
             add(cardGraphic);
         }
-    }    
+    }
+    
     
     @Override
     protected void paintComponent(Graphics g) {
