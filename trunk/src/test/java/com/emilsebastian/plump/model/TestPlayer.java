@@ -13,9 +13,9 @@ public class TestPlayer {
 
     Player kajsa = new Player(null, "Kajsa");
     
-    Card diamonds_3 = new Card(Suit.DIAMONDS, 3);
-    Card hearts_3 = new Card(Suit.HEARTS, 3);
-    Card hearts_9 = new Card(Suit.HEARTS, 9);
+    Card diamonds_3 = new Card(3, Suit.DIAMONDS);
+    Card hearts_3 = new Card(3, Suit.HEARTS);
+    Card hearts_9 = new Card(9, Suit.HEARTS);
     
     
     @Before

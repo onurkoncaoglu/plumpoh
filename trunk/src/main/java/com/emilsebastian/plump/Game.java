@@ -1,3 +1,19 @@
+/*
+ * Copyright 2007 Emil Jönsson
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at 
+ * 
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *     
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package com.emilsebastian.plump;
 
 import org.apache.log4j.Logger;
@@ -22,7 +38,7 @@ public class Game implements Runnable {
     private final Thread gameLoop = new Thread(this);
     
     private PlayerList players;
-    private Deck deck = new Deck();
+    private Deck deck = new Deck(true);
     
     private int currentNumberOfCards;
 
@@ -33,6 +49,7 @@ public class Game implements Runnable {
     
     
     public void start() {
+        gameLoop.setName("Main game thread");
         gameLoop.start();
     }
     
@@ -49,8 +66,6 @@ public class Game implements Runnable {
                 numberOfCards >= 1; numberOfCards--) {
                 
                 currentNumberOfCards = numberOfCards;
-                
-                deck.shuffle();
     
                 dealCards();
                 retrieveNumberOfTricksBid();
@@ -69,10 +84,10 @@ public class Game implements Runnable {
     private void dealCards() throws PlumpException {
 
         for (Player player : players) {
-            player.resetHand();
+            player.clearHand();
 
             for (int i = 1; i <= currentNumberOfCards; i++) {
-                player.takeDealtCard(deck.dealCard());
+                player.takeDealtCard(deck.drawCard());
             }
 
             player.setTricks(0);
@@ -94,11 +109,6 @@ public class Game implements Runnable {
                 
             } while (!rules.validBid(bid, currentNumberOfCards, 
                     bidTricksCount, isLastBid));
-            
-            /* while (!rules.validBid(bid, currentNumberOfCards, 
-                    bidTricksCount, isLastBid)) {
-                bid = player.placeBid();
-            } */
             
             player.setBidTricks(bid);
             bidTricksCount += bid;
