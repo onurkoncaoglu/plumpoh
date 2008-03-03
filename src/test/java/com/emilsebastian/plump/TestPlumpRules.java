@@ -197,4 +197,13 @@ public class TestPlumpRules {
                 rules.validMove(kajsa, hearts_9, Suit.HEARTS));        
     }
     
+    @Test
+    public void initialNumberOfCards() {
+        assertEquals(rules.getInitialNumberOfCards(3), 10);
+        assertEquals(rules.getInitialNumberOfCards(4), 10);
+        assertEquals(rules.getInitialNumberOfCards(5), 10);
+        assertEquals(rules.getInitialNumberOfCards(6), 8);
+        assertEquals(rules.getInitialNumberOfCards(7), 7);
+    }
+    
 }

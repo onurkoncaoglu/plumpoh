@@ -29,10 +29,23 @@ public class DragHandler {
     private Point offset = new Point(0, 0);
 
     
+    /**
+     * Stores the coordinates, relative to the component, of where 
+     * the user pressed down the mouse button.
+     * @param offset
+     */
     public void mousePressed(Point offset) {
         this.offset = offset;
     }
     
+    
+    /**
+     * Moves the specified component to the destination coordinates. 
+     * The offset of the point where the user initially pressed 
+     * down the mouse button is taken into account.
+     * @param component
+     * @param destination
+     */
     public void mouseDragged(Component component, Point destination) {
         
         synchronized (component) {

@@ -20,7 +20,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import com.emilsebastian.plump.exception.PlumpException;
+import com.emilsebastian.plump.exception.EmptyDeckException;
 
 /**
  * This class represents a deck of playing cards.
@@ -62,10 +62,10 @@ public class Deck {
      * Draws the top card of the deck.
      * @return the top card
      */
-    public Card drawCard() throws PlumpException {
+    public Card drawCard() {
         
         if (deck.isEmpty()) {
-            throw new PlumpException("No more cards in deck.");        
+            throw new EmptyDeckException("No more cards in deck.");        
         }
 
         return deck.remove(0);

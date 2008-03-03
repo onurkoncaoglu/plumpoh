@@ -1,5 +1,5 @@
 /*
- * Copyright 2007 Emil Jönsson
+ * Copyright 2008 Emil Jönsson
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,23 +14,14 @@
  * limitations under the License.
  */
 
-package com.emilsebastian.plump.exception;
+package com.emilsebastian.plump.model.listener;
 
-public abstract class PlumpException extends RuntimeException {
-    
-    private static final long serialVersionUID = -477975968679961324L;
+import com.emilsebastian.plump.model.Card;
 
-    
-    public PlumpException(Throwable cause) {
-        super(cause);
-    }
-    
-    public PlumpException(String message) {
-        super(message);
-    }
-    
-    public PlumpException(String message, Throwable cause) {
-        super(message,cause);
-    }
+public interface HandEventListener {
 
+	public void cardAdded(Card card);
+	
+	public void cardRemoved(Card card);
+	
 }
