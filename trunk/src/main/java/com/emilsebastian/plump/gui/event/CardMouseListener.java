@@ -1,5 +1,5 @@
 /*
- * Copyright 2007 Emil Jönsson
+ * Copyright 2007 - 2008 Emil Jönsson
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,24 +18,40 @@ package com.emilsebastian.plump.gui.event;
 
 import java.awt.event.MouseEvent;
 
+import com.emilsebastian.plump.event.EventManager;
 import com.emilsebastian.plump.gui.DragHandler;
-import com.emilsebastian.plump.gui.component.CardComponent;
+import com.emilsebastian.plump.model.Card;
 
+/**
+ * Listens for mouse events performed on a card component.
+ * @author emilsebastian
+ *
+ */
 public class CardMouseListener extends MouseListenerAdapter {
     
     private final DragHandler dragHandler = new DragHandler();
     
+    private final Card card;
+    private final EventManager eventManager;
     
-    public void mouseClicked(MouseEvent event) {
-        CardComponent cardComponent = (CardComponent) event.getSource();
-        cardComponent.click();
+    
+    public CardMouseListener(Card card, EventManager eventManager) {
+    	this.card = card;
+    	this.eventManager = eventManager;
     }
     
-    public void mousePressed(MouseEvent event) {
+    
+    @Override public void mouseClicked(MouseEvent event) {
+        eventManager.cardSelected(card);
+    }
+    
+    
+    @Override public void mousePressed(MouseEvent event) {
         dragHandler.mousePressed(event.getPoint());
     }
 
-    public void mouseDragged(MouseEvent event) {
+    
+    @Override public void mouseDragged(MouseEvent event) {
         dragHandler.mouseDragged(event.getComponent(), event.getPoint());
     }
 

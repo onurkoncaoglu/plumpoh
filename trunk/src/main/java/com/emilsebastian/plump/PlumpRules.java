@@ -30,6 +30,17 @@ public class PlumpRules {
     
     private String message = "";
     
+    
+    /**
+     * Calculates the number of cards for the first hand.
+     * @param numberOfPlayers
+     * @return number of cards
+     */
+    public int getInitialNumberOfCards(int numberOfPlayers) {
+        int numberOfCards = 52 / numberOfPlayers;
+        
+        return (numberOfCards < 10)? numberOfCards : 10;
+    }
 
     /**
      * Makes the player who has placed the highest bid the starting player. In 
@@ -107,9 +118,9 @@ public class PlumpRules {
      * If the player has over- or underbid, the player gets zero points.
      * 
      * @param players
-     * @param round
+     * @param hand
      */
-    public void calculateScore(PlayerList players, int deal) {
+    public void calculateScore(PlayerList players, int hand) {
         for (Player player : players) {
             int tricks = player.getTricks();
             int score = 0;
@@ -118,7 +129,7 @@ public class PlumpRules {
                 score = (tricks > 0)? 10 + tricks : 5;
             }
             
-            player.addScore(deal, score);
+            player.addScore(hand, score);
         }
     }
 
@@ -138,6 +149,7 @@ public class PlumpRules {
      * @param cardsOnHand number of cards each player has on hand this round
      * @param bidTricksCount total number of tricks that has been bid this far
      * @param isLastBid whether this bid is placed by the last bidding player or not
+     * 
      * @return <code>true</code> if the bid is valid, else <code>false</code>
      */
     public boolean validBid(int bid, int cardsOnHand,
@@ -167,6 +179,7 @@ public class PlumpRules {
      * @param player player making the move
      * @param card played card
      * @param currentSuit suit of current round
+     * 
      * @return <code>true</code> if the move is valid, else <code>false</code>
      */
     public boolean validMove(Player player, Card card, Suit currentSuit) {

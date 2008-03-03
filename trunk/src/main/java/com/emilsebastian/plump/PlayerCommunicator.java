@@ -14,23 +14,16 @@
  * limitations under the License.
  */
 
-package com.emilsebastian.plump.exception;
+package com.emilsebastian.plump;
 
-public abstract class PlumpException extends RuntimeException {
-    
-    private static final long serialVersionUID = -477975968679961324L;
+import com.emilsebastian.plump.model.Card;
+import com.emilsebastian.plump.model.Hand;
 
-    
-    public PlumpException(Throwable cause) {
-        super(cause);
-    }
-    
-    public PlumpException(String message) {
-        super(message);
-    }
-    
-    public PlumpException(String message, Throwable cause) {
-        super(message,cause);
-    }
+public interface PlayerCommunicator {
 
+    public Card retrieveCard();
+    
+    public int retrieveBid();
+    
+    public void sendHand(Hand hand);
 }

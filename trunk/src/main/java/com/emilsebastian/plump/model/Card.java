@@ -1,5 +1,5 @@
 /*
- * Copyright 2007 Emil Jönsson
+ * Copyright 2007 - 2008 Emil Jönsson
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,7 +21,7 @@ package com.emilsebastian.plump.model;
  * @author emilsebastian
  *
  */
-public class Card {
+public class Card implements Comparable<Card> {
 
     private final int rank;
     private final Suit suit;
@@ -32,22 +32,33 @@ public class Card {
         this.suit = suit;
     }
 
+    
     public Suit getSuit() {
         return suit;
     }
 
+    
     public int getRank() {
         return rank;
     }
+
     
-    
-    public String toString() {
-        return suit + " " + rank;
-    }
+    /**
+     * Compares this card with the specified card for order. If the suits of
+     * the two cards match they are compared by rank, else the cards will be
+     * compared based on the order in which the suits are defined in {@link Suit}.
+     */
+    public int compareTo(Card other) {
+		
+    	if (other.suit == suit) {
+    		return rank - other.rank;
+    	}
+    	
+    	return suit.compareTo(other.suit);
+	}
     
 
-    @Override
-    public boolean equals(Object obj) {
+    @Override public boolean equals(Object obj) {
       
         if (obj instanceof Card) {
             Card card = (Card) obj;
@@ -59,9 +70,14 @@ public class Card {
         return false;
     }
 
-    @Override
-    public int hashCode() {
+    
+    @Override public int hashCode() {
         return 100 * suit.ordinal() + rank;
+    }
+    
+    
+    @Override public String toString() {
+        return suit + " " + rank;
     }
     
 }

@@ -14,20 +14,12 @@
  * limitations under the License.
  */
 
-package com.emilsebastian.plump.gui.event;
+package com.emilsebastian.plump.exception;
 
-import org.apache.log4j.Logger;
+public abstract class NetworkException extends PlumpException {
 
-import com.emilsebastian.plump.model.Card;
-
-public class EventManager {
-
-    private final static Logger log = Logger.getLogger(EventManager.class);
-    
-    
-    public synchronized void cardSelected(Card card) {
-        log.info("Selected card " + card.getSuit().name() +
-                " " + card.getRank());
+    public NetworkException(String message) {
+        super(message);
     }
-    
+
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright 2007 Emil Jönsson
+ * Copyright 2007 - 2008 Emil Jönsson
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,9 +16,12 @@
 
 package com.emilsebastian.plump.model;
 
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.TreeSet;
+
+import com.emilsebastian.plump.model.listener.HandEventListener;
 
 /**
  * This class represents a player's hand.
@@ -27,8 +30,11 @@ import java.util.Collections;
  */
 public class Hand {
 
-    private final Collection<Card> cards = 
-        Collections.synchronizedCollection(new ArrayList<Card>());
+    private final Set<Card> cards = 
+        Collections.synchronizedSet(new TreeSet<Card>());
+    
+    private final Set<HandEventListener> listeners = 
+    	Collections.synchronizedSet(new HashSet<HandEventListener>());
     
     
     /**
@@ -45,6 +51,7 @@ public class Hand {
      */
     public void addCard(Card card) {
         cards.add(card);
+        notifyCardAdded(card);
     }
     
     /**
@@ -53,7 +60,14 @@ public class Hand {
      * @return <code>true</code> if the card was removed, else <code>false</code>
      */
     public boolean discardCard(Card card) {
-        return cards.remove(card);
+    	
+    	boolean isSuccess = cards.remove(card);
+    	
+    	if (isSuccess) {
+    		notifyCardRemoved(card);
+    	}
+    	
+        return isSuccess;
     }
     
     /**
@@ -87,8 +101,36 @@ public class Hand {
      * Returns a collection of all cards currently in hand.
      * @return the cards in hand.
      */
-    public Collection<Card> getCards() {
-        return Collections.unmodifiableCollection(cards);
+    public Set<Card> getCards() {
+        return Collections.unmodifiableSet(cards);
     }
     
+    
+    public void addHandEventListener(HandEventListener listener) {
+    	listeners.add(listener);
+    }
+    
+    
+    public void removeHandEventListener(HandEventListener listener) {
+    	listeners.remove(listener);
+    }
+    
+    
+    private void notifyCardAdded(Card card) {
+    	synchronized (listeners) {
+	    	for (HandEventListener listener : listeners) {
+	    		listener.cardAdded(card);
+	    	}
+    	}
+    }
+    
+
+    private void notifyCardRemoved(Card card) {
+    	synchronized (listeners) {
+    		for (HandEventListener listener : listeners) {
+	    		listener.cardRemoved(card);
+	    	}
+    	}
+    }
+
 }

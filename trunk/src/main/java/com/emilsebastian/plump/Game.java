@@ -18,7 +18,7 @@ package com.emilsebastian.plump;
 
 import org.apache.log4j.Logger;
 
-import com.emilsebastian.plump.exception.PlumpException;
+import com.emilsebastian.plump.exception.IllegalMoveException;
 import com.emilsebastian.plump.model.Card;
 import com.emilsebastian.plump.model.Deck;
 import com.emilsebastian.plump.model.Player;
@@ -35,7 +35,6 @@ public class Game implements Runnable {
     private static final Logger log = Logger.getLogger(Game.class);
     
     private final PlumpRules rules = new PlumpRules();
-    private final Thread gameLoop = new Thread(this);
     
     private PlayerList players;
     private Deck deck = new Deck(true);
@@ -46,43 +45,36 @@ public class Game implements Runnable {
     public Game(PlayerList players) {
         this.players = players;
     }
-    
-    
-    public void start() {
-        gameLoop.setName("Main game thread");
-        gameLoop.start();
-    }
-    
-    
+
+
     public void run() {
-        try {
-            int startingNumberOfCards = 52 / players.size();
+    	
+    	synchronized (this) {
+    		try {
+    			wait(1000);
+    		
+    		} catch (InterruptedException e) {
+    			log.warn("Thread was interrupted ...");
+    		}
+		}
+    	
+        int initialNumberOfCards = rules.getInitialNumberOfCards(players.size());
+        
+        for (currentNumberOfCards = initialNumberOfCards;
+            currentNumberOfCards >= 1; currentNumberOfCards--) {
             
-            if (startingNumberOfCards > 5) {
-                startingNumberOfCards = 5;
-            }
+            dealCards();
+            retrieveNumberOfTricksBid();
+            playHand();
             
-            for (int numberOfCards = startingNumberOfCards;
-                numberOfCards >= 1; numberOfCards--) {
-                
-                currentNumberOfCards = numberOfCards;
-    
-                dealCards();
-                retrieveNumberOfTricksBid();
-                playDeal();                
-                
-                // let the next player "deal" the cards
-                players.setNextDealer();
-            }
-            
-        } catch (PlumpException e) {
-            log.error(e.getMessage());
+            // let the next player "deal" the cards
+            players.setNextDealer();
         }
     }
     
     
-    private void dealCards() throws PlumpException {
-
+    private void dealCards() {
+        
         for (Player player : players) {
             player.clearHand();
 
@@ -97,15 +89,15 @@ public class Game implements Runnable {
     }
     
     
-    private void retrieveNumberOfTricksBid() {    
+    private void retrieveNumberOfTricksBid() {
         int bidTricksCount = 0;
-        
-        for (Player player : players) {            
+
+        for (Player player : players) {
             boolean isLastBid = players.isLast(player);
             int bid = 0;
             
             do {
-                bid = player.placeBid();
+                bid = player.retrieveBid();
                 
             } while (!rules.validBid(bid, currentNumberOfCards, 
                     bidTricksCount, isLastBid));
@@ -116,7 +108,7 @@ public class Game implements Runnable {
     }
     
     
-    private void playDeal() throws PlumpException {
+    private void playHand() {
         
         // let the player who has placed the highest bid start
         rules.setBeginnerBasedOnBidTricks(players);
@@ -149,7 +141,7 @@ public class Game implements Runnable {
             
             players.setStartingPlayer(leadingPlayer);
             leadingPlayer.addTrick();
-            
+
             log.debug("\"" + leadingPlayer.getName() + "\" won this trick");
         }
         
@@ -157,8 +149,7 @@ public class Game implements Runnable {
         rules.calculateScore(players, currentNumberOfCards);
     }
     
-    private Card askForCard(Player player, Suit currentSuit)
-            throws PlumpException {
+    private Card askForCard(Player player, Suit currentSuit) {
         
         Card card = player.askForCard();
         
@@ -168,7 +159,7 @@ public class Game implements Runnable {
             return card;
         
         } else {
-            throw new PlumpException(rules.getMessageFlash());
+            throw new IllegalMoveException(rules.getMessageFlash());
         }
     }
 

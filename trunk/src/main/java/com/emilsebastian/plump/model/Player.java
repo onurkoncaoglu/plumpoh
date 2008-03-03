@@ -19,8 +19,7 @@ package com.emilsebastian.plump.model;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.emilsebastian.plump.ClientCommunicator;
-import com.emilsebastian.plump.exception.PlumpException;
+import com.emilsebastian.plump.PlayerCommunicator;
 
 /**
  * This class represents a card player.
@@ -32,7 +31,7 @@ public class Player {
     private final Map<Integer, Integer> totalScore = new HashMap<Integer, Integer>(2, 2);
     private final Hand hand = new Hand();
     
-    private final ClientCommunicator communicator;
+    private final PlayerCommunicator communicator;
     private final String name;
     
     private int bidTricks = 0;
@@ -44,7 +43,7 @@ public class Player {
      * @param communicator
      * @param name
      */
-    public Player(ClientCommunicator communicator, String name) {
+    public Player(PlayerCommunicator communicator, String name) {
         this.communicator = communicator;
         this.name = name;
     }
@@ -171,18 +170,18 @@ public class Player {
     
     /* "networking" methods, eh ... */
 
-    public int placeBid() {
+    public int retrieveBid() {
         return communicator.retrieveBid();
     }
 
-    public Card askForCard() throws PlumpException {
+    public Card askForCard() {
         tellHand();
         
         return communicator.retrieveCard();
     }
     
     public void tellHand() {
-        communicator.sendHand(hand.getCards());
+        communicator.sendHand(hand);
     }
 
 }

@@ -19,12 +19,13 @@ package com.emilsebastian.plump;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.Collection;
+import java.util.Set;
 
 import com.emilsebastian.plump.model.Card;
+import com.emilsebastian.plump.model.Hand;
 import com.emilsebastian.plump.model.Suit;
 
-public class ConsoleClientCommunicator implements ClientCommunicator {
+public class ConsoleClientCommunicator implements PlayerCommunicator {
 
     BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
     
@@ -46,12 +47,16 @@ public class ConsoleClientCommunicator implements ClientCommunicator {
         return card;
     }
     
-    public void sendHand(Collection<Card> hand) {
+    public void sendHand(Hand hand) {
         
-        for (Card card : hand) {
-            System.out.print(card + ", ");
-        }
-        
+    	Set<Card> cards = hand.getCards();
+    	
+    	synchronized (cards) {
+	        for (Card card : cards) {
+	            System.out.print(card + ", ");
+	        }
+    	}
+    	
         System.out.println();
     }
     

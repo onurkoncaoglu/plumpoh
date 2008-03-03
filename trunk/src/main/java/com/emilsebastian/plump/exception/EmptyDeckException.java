@@ -16,21 +16,10 @@
 
 package com.emilsebastian.plump.exception;
 
-public abstract class PlumpException extends RuntimeException {
-    
-    private static final long serialVersionUID = -477975968679961324L;
+public class EmptyDeckException extends PlumpException {
 
-    
-    public PlumpException(Throwable cause) {
-        super(cause);
-    }
-    
-    public PlumpException(String message) {
+	public EmptyDeckException(String message) {
         super(message);
     }
     
-    public PlumpException(String message, Throwable cause) {
-        super(message,cause);
-    }
-
 }
